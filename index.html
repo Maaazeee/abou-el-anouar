@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>École Privée Abou el Anouar | المجمع المدرسي الخاص أبو الانوار</title>
+    <link rel="icon" type="image/jpg" href="images/logo_ecole.jpg">
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- ========== TOP BAR ========== -->
+    <div class="topbar">
+        <div class="container topbar-inner">
+            <div class="topbar-info">
+                <span><i class="fas fa-phone-alt"></i> +213 561 78 69 66</span>
+                <span><i class="fas fa-envelope"></i> ecole.abou.anouar@gmail.com</span>
+                <span><i class="fas fa-map-marker-alt"></i> 294, 'Aïn Benian, Alger</span>
+            </div>
+            <div class="topbar-actions">
+                <button class="lang-toggle" id="langToggle">
+                    <span class="lang-fr active-lang">FR</span>
+                    <span class="lang-sep">|</span>
+                    <span class="lang-ar">ع</span>
+                </button>
+                <a href="pre-inscription.html" class="btn-preins" data-fr="Pré-inscription" data-ar="تسجيل مسبق">Pré-inscription</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== HEADER ========== -->
+    <header class="header">
+        <div class="container header-inner">
+            <div class="logo">
+                <img src="images/logo_ecole.jpg" alt="Logo Abou el Anouar">
+                <div class="logo-text">
+                    <span class="logo-title" data-fr="Abou el Anouar" data-ar="أبو الانوار">Abou el Anouar</span>
+                    <span class="logo-sub" data-fr="Savoir &middot; Discipline &middot; Excellence" data-ar="علم &middot; انضباط &middot; تميز">Savoir &middot; Discipline &middot; Excellence</span>
+                </div>
+            </div>
+            <nav class="nav" id="nav">
+                <ul class="nav-list">
+                    <li><a href="#accueil" class="active" data-fr="Accueil" data-ar="الرئيسية">Accueil</a></li>
+                    <li><a href="#presentation" data-fr="Présentation" data-ar="تعريف">Présentation</a></li>
+                    <li><a href="#niveaux" data-fr="Cycles" data-ar="الأطوار">Cycles</a></li>
+                    <li><a href="#services" data-fr="Services" data-ar="خدمات">Services</a></li>
+                    <li><a href="#contact" data-fr="Contact" data-ar="اتصال">Contact</a></li>
+                    <li><a href="espace/login.php" class="nav-login"><i class="fas fa-lock"></i> <span data-fr="Espace" data-ar="فضاء">Espace</span></a></li>
+                </ul>
+            </nav>
+            <button class="hamburger" id="hamburger" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- ========== HERO ========== -->
+    <section class="hero" id="accueil">
+        <div class="hero-slide" style="background-image: linear-gradient(135deg, var(--blue) 0%, #0d1f33 100%);">
+            <div class="hero-pattern"></div>
+            <div class="container hero-content">
+                <div class="hero-badge" data-fr="Établissement d'Enseignement Privé" data-ar="مؤسسة تعليمية خاصة">Établissement d'Enseignement Privé</div>
+                <h1 class="hero-title" data-fr="École Privée <br>Abou el Anouar" data-ar="المجمع المدرسي الخاص <br>أبو الانوار">École Privée <br>Abou el Anouar</h1>
+                <p class="hero-sub" data-fr="Une éducation d'excellence du primaire au secondaire, dans un cadre moderne et bienveillant." data-ar="تعليم متميز من الابتدائي إلى الثانوي، في إطار حديث ومحفز.">Une éducation d'excellence du primaire au secondaire, dans un cadre moderne et bienveillant.</p>
+                <div class="hero-badges">
+                    <span data-fr="Primaire" data-ar="ابتدائي">Primaire</span>
+                    <span data-fr="Moyenne" data-ar="متوسط">Moyenne</span>
+                    <span data-fr="Secondaire" data-ar="ثانوي">Secondaire</span>
+                </div>
+                <div class="hero-actions">
+                    <a href="#niveaux" class="btn btn-gold" data-fr="Découvrir nos cycles" data-ar="اكتشف أطوارنا">Découvrir nos cycles</a>
+                    <a href="#contact" class="btn btn-outline" data-fr="Contactez-nous" data-ar="اتصل بنا">Contactez-nous</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== STATS BAND ========== -->
+    <section class="stats-band">
+        <div class="container stats-grid">
+            <div class="stat-item">
+                <span class="stat-num">3</span>
+                <span class="stat-lbl" data-fr="Cycles éducatifs" data-ar="أطوار تعليمية">Cycles éducatifs</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-num">+500</span>
+                <span class="stat-lbl" data-fr="Élèves encadrés" data-ar="تلميذ">Élèves encadrés</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-num">+95%</span>
+                <span class="stat-lbl" data-fr="Taux de réussite" data-ar="نسبة النجاح">Taux de réussite</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-num">+50</span>
+                <span class="stat-lbl" data-fr="Enseignants qualifiés" data-ar="أستاذ مؤهل">Enseignants qualifiés</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== PRESENTATION ========== -->
+    <section class="section presentation" id="presentation">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag" data-fr="Qui sommes-nous ?" data-ar="من نحن؟">Qui sommes-nous ?</span>
+                <h2 data-fr="Bienvenue à Abou el Anouar" data-ar="مرحبا بكم في أبو الانوار">Bienvenue à Abou el Anouar</h2>
+                <div class="divider"></div>
+            </div>
+            <div class="presentation-grid">
+                <div class="presentation-text">
+                    <p data-fr="Fondée pour offrir un enseignement de qualité en Algérie, l'École Privée Abou el Anouar accueille les élèves du primaire, du collège et du lycée. Nous nous engageons à former des citoyens compétents, responsables et ouverts sur le monde, dans un cadre éducatif moderne alliant rigueur académique et valeurs humaines." data-ar="تأسست مدرستنا لتوفير تعليم عالي الجودة في الجزائر، تستقبل المدرسة تلاميذ الأطوار الثلاثة: الابتدائي والمتوسط والثانوي. نحن ملتزمون بتكوين مواطنين أكفاء ومسؤولين ومنفتحين على العالم، في إطار تربوي حديث يجمع بين الصرامة الأكاديمية والقيم الإنسانية.">
+                        Fondée pour offrir un enseignement de qualité en Algérie, l'École Privée Abou el Anouar accueille les élèves du primaire, du collège et du lycée. Nous nous engageons à former des citoyens compétents, responsables et ouverts sur le monde, dans un cadre éducatif moderne alliant rigueur académique et valeurs humaines.
+                    </p>
+                    <a href="pre-inscription.html" class="btn btn-gold" data-fr="Demander une inscription" data-ar="طلب تسجيل">Demander une inscription</a>
+                </div>
+                <div class="presentation-values">
+                    <div class="value-card">
+                        <div class="value-icon" style="background: rgba(45,138,78,0.1); color: var(--green);">
+                            <i class="fas fa-book-open"></i>
+                        </div>
+                        <h4 data-fr="Savoir" data-ar="علم">Savoir</h4>
+                        <p data-fr="Programme pédagogique enrichi" data-ar="برنامج بيداغوجي غني">Programme pédagogique enrichi</p>
+                    </div>
+                    <div class="value-card">
+                        <div class="value-icon" style="background: rgba(27,58,92,0.1); color: var(--blue);">
+                            <i class="fas fa-handshake"></i>
+                        </div>
+                        <h4 data-fr="Discipline" data-ar="انضباط">Discipline</h4>
+                        <p data-fr="Cadre structurant et bienveillant" data-ar="إطار منظم ومحفز">Cadre structurant et bienveillant</p>
+                    </div>
+                    <div class="value-card">
+                        <div class="value-icon" style="background: rgba(201,168,76,0.1); color: var(--gold);">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <h4 data-fr="Excellence" data-ar="تميز">Excellence</h4>
+                        <p data-fr="Ambition et réussite pour chacun" data-ar="طموح ونجاح لكل تلميذ">Ambition et réussite pour chacun</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== NIVEAUX ========== -->
+    <section class="section niveaux" id="niveaux">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag" data-fr="Notre offre pédagogique" data-ar="عرضنا البيداغوجي">Notre offre pédagogique</span>
+                <h2 data-fr="Nos Cycles d'Enseignement" data-ar="أطوارنا التعليمية">Nos Cycles d'Enseignement</h2>
+                <div class="divider"></div>
+                <p class="section-sub" data-fr="Un parcours complet et cohérent de la 1ère année primaire à la 3ème année secondaire" data-ar="مسار كامل ومتكامل من السنة الأولى ابتدائي إلى السنة الثالثة ثانوي">Un parcours complet et cohérent de la 1ère année primaire à la 3ème année secondaire</p>
+            </div>
+            <div class="niveaux-grid">
+                <div class="niveau-card" style="--accent: #2D8A4E;">
+                    <div class="card-image" style="background: linear-gradient(135deg, #2D8A4E, #1a5e32);">
+                        <i class="fas fa-child"></i>
+                    </div>
+                    <div class="card-body">
+                        <h3 data-fr="Primaire" data-ar="الطور الابتدائي">Primaire</h3>
+                        <span class="card-ages" data-fr="6 – 11 ans" data-ar="6 – 11 سنة">6 – 11 ans</span>
+                        <ul>
+                            <li data-fr="Programme officiel enrichi" data-ar="برنامج رسمي معزز">Programme officiel enrichi</li>
+                            <li data-fr="Initiation aux langues étrangères" data-ar="بداية تعلم اللغات الأجنبية">Initiation aux langues étrangères</li>
+                            <li data-fr="Activités ludiques et éducatives" data-ar="أنشطة ترفيهية وتعليمية">Activités ludiques et éducatives</li>
+                            <li data-fr="Encadrement personnalisé" data-ar="مرافقة فردية">Encadrement personnalisé</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="niveau-card" style="--accent: #1B3A5C;">
+                    <div class="card-image" style="background: linear-gradient(135deg, #1B3A5C, #0d1f33);">
+                        <i class="fas fa-book-reader"></i>
+                    </div>
+                    <div class="card-body">
+                        <h3 data-fr="Moyenne" data-ar="الطور المتوسط">Moyenne</h3>
+                        <span class="card-ages" data-fr="11 – 15 ans" data-ar="11 – 15 سنة">11 – 15 ans</span>
+                        <ul>
+                            <li data-fr="Approfondissement des matières" data-ar="تعمق في المواد">Approfondissement des matières</li>
+                            <li data-fr="Accompagnement au BEM" data-ar="تحضير لشهادة BEM">Accompagnement au BEM</li>
+                            <li data-fr="Développement de l'esprit critique" data-ar="تنمية الروح النقدية">Développement de l'esprit critique</li>
+                            <li data-fr="Projets pédagogiques interactifs" data-ar="مشاريع بيداغوجية تفاعلية">Projets pédagogiques interactifs</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="niveau-card" style="--accent: #C9A84C;">
+                    <div class="card-image" style="background: linear-gradient(135deg, #C9A84C, #a88a2e);">
+                        <i class="fas fa-user-graduate"></i>
+                    </div>
+                    <div class="card-body">
+                        <h3 data-fr="Secondaire" data-ar="الطور الثانوي">Secondaire</h3>
+                        <span class="card-ages" data-fr="15 – 18 ans" data-ar="15 – 18 سنة">15 – 18 ans</span>
+                        <ul>
+                            <li data-fr="Filières : Sciences, Lettres, Gestion" data-ar="شعب: علوم، آداب، تسيير">Filières : Sciences, Lettres, Gestion</li>
+                            <li data-fr="Préparation intensive au BAC" data-ar="تحضير مكثف للبكالوريا">Préparation intensive au BAC</li>
+                            <li data-fr="Orientation universitaire" data-ar="توجيه جامعي">Orientation universitaire</li>
+                            <li data-fr="Conférences et ateliers" data-ar="محاضرات وورشات">Conférences et ateliers</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== SERVICES ========== -->
+    <section class="section services" id="services">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag" data-fr="Nos services" data-ar="خدماتنا">Nos services</span>
+                <h2 data-fr="Services Scolaires" data-ar="الخدمات المدرسية">Services Scolaires</h2>
+                <div class="divider"></div>
+            </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-bus"></i>
+                    </div>
+                    <h4 data-fr="Transport" data-ar="نقل مدرسي">Transport</h4>
+                    <p data-fr="Navettes assurées depuis 'Aïn Benian et les environs" data-ar="حافلات مضمونة من عين بنيان والمناطق المجاورة">Navettes assurées depuis 'Aïn Benian et les environs</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <h4 data-fr="Restauration" data-ar="مطعم">Restauration</h4>
+                    <p data-fr="Repas équilibrés préparés sur place" data-ar="وجبات متوازنة تحضر في المدرسة">Repas équilibrés préparés sur place</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-medkit"></i>
+                    </div>
+                    <h4 data-fr="Infirmerie" data-ar="ممرضة">Infirmerie</h4>
+                    <p data-fr="Suivi médical et premiers soins" data-ar="متابعة طبية وإسعافات أولية">Suivi médical et premiers soins</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-futbol"></i>
+                    </div>
+                    <h4 data-fr="Activités Parascolaires" data-ar="أنشطة لا منهجية">Activités Parascolaires</h4>
+                    <p data-fr="Sport, théâtre, arts, club de lecture" data-ar="رياضة، مسرح، فنون، نادي القراءة">Sport, théâtre, arts, club de lecture</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-laptop"></i>
+                    </div>
+                    <h4 data-fr="Approche Numérique" data-ar="مقاربة رقمية">Approche Numérique</h4>
+                    <p data-fr="Méthodes pédagogiques innovantes et interactives" data-ar="طرق بيداغوجية مبتكرة وتفاعلية">Méthodes pédagogiques innovantes et interactives</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-hand-holding-heart"></i>
+                    </div>
+                    <h4 data-fr="Suivi Personnalisé" data-ar="متابعة فردية">Suivi Personnalisé</h4>
+                    <p data-fr="Cahier de liaison et rencontres parents-profs" data-ar="كراس التواصل ولقاءات الأولياء">Cahier de liaison et rencontres parents-profs</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== FAQ ========== -->
+    <section class="section faq">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag" data-fr="Questions fréquentes" data-ar="أسئلة متكررة">Questions fréquentes</span>
+                <h2 data-fr="Vous avez des questions ?" data-ar="هل لديك أسئلة؟">Vous avez des questions ?</h2>
+                <div class="divider"></div>
+            </div>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span data-fr="Où se trouve l'école ?" data-ar="أين تقع المدرسة؟">Où se trouve l'école ?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>294, 'Aïn Benian, Alger, Algérie.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span data-fr="Quels sont les cycles proposés ?" data-ar="ما هي الأطوار المقترحة؟">Quels sont les cycles proposés ?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p data-fr="Nous accueillons les élèves du primaire (6-11 ans), du collège/moyenne (11-15 ans) et du lycée/secondaire (15-18 ans)." data-ar="نستقبل تلاميذ الطور الابتدائي (6-11 سنة) والمتوسط (11-15 سنة) والثانوي (15-18 سنة).">Nous accueillons les élèves du primaire (6-11 ans), du collège/moyenne (11-15 ans) et du lycée/secondaire (15-18 ans).</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span data-fr="Comment inscrire mon enfant ?" data-ar="كيف يمكن تسجيل طفلي؟">Comment inscrire mon enfant ?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p data-fr="Vous pouvez nous contacter via le formulaire ci-dessous, par téléphone ou directement à l'école pour une pré-inscription." data-ar="يمكنكم الاتصال بنا عبر النموذج أدناه، أو بالهاتف، أو مباشرة في المدرسة للتسجيل المسبق.">Vous pouvez nous contacter via le formulaire ci-dessous, par téléphone ou directement à l'école pour une pré-inscription.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span data-fr="Quels sont les horaires ?" data-ar="ما هي أوقات العمل؟">Quels sont les horaires ?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p data-fr="L'école est ouverte du dimanche au jeudi de 8h00 à 16h30." data-ar="المدرسة مفتوحة من الأحد إلى الخميس من 8:00 إلى 16:30.">L'école est ouverte du dimanche au jeudi de 8h00 à 16h30.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== CONTACT ========== -->
+    <section class="section contact" id="contact">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag" data-fr="Restons en contact" data-ar="ابق على اتصال">Restons en contact</span>
+                <h2 data-fr="Contactez-Nous" data-ar="اتصل بنا">Contactez-Nous</h2>
+                <div class="divider"></div>
+            </div>
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <h4 data-fr="Adresse" data-ar="العنوان">Adresse</h4>
+                            <p>294, 'Aïn Benian, Alger</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-phone-alt"></i>
+                        <div>
+                            <h4 data-fr="Téléphone" data-ar="الهاتف">Téléphone</h4>
+                            <p>+213 561 78 69 66</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <h4 data-fr="Email" data-ar="البريد الإلكتروني">Email</h4>
+                            <p>ecole.abou.anouar@gmail.com</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-clock"></i>
+                        <div>
+                            <h4 data-fr="Horaires" data-ar="أوقات العمل">Horaires</h4>
+                            <p data-fr="Dim – Jeu : 8h00 – 16h30" data-ar="الأحد – الخميس: 8:00 – 16:30">Dim – Jeu : 8h00 – 16h30</p>
+                        </div>
+                    </div>
+                    <div class="contact-map">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d25570.422578760575!2d2.89539695!3d36.80265935!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fc2b8b0b0b0b0%3A0x0!2zMzbCsDQ4JzA5LjYiTiAywrA1NCczMC4yIkU!5e0!3m2!1sfr!2sdz!4v1" width="100%" height="220" style="border:0; border-radius: 8px;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    </div>
+                </div>
+                <form class="contact-form" id="contactForm" action="https://formsubmit.io/send/ecole.abou.anouar@gmail.com" method="POST" novalidate>
+                    <input type="hidden" name="_subject" value="Nouveau message depuis le site Abou el Anouar">
+                    <input type="hidden" name="_captcha" value="false">
+                    <input type="hidden" name="_next" value="">
+                    <input type="text" name="_gotcha" style="display:none">
+                    <div class="form-row">
+                        <input type="text" id="name" placeholder=" " required>
+                        <label for="name" data-fr="Nom complet" data-ar="الاسم الكامل">Nom complet</label>
+                    </div>
+                    <div class="form-row">
+                        <input type="email" id="email" placeholder=" " required>
+                        <label for="email" data-fr="Adresse email" data-ar="البريد الإلكتروني">Adresse email</label>
+                    </div>
+                    <div class="form-row">
+                        <input type="tel" id="phone" placeholder=" " required>
+                        <label for="phone" data-fr="Téléphone" data-ar="رقم الهاتف">Téléphone</label>
+                    </div>
+                    <div class="form-row">
+                        <label for="cycle" class="select-label" data-fr="Cycle souhaité" data-ar="الطور المطلوب">Cycle souhaité</label>
+                        <select id="cycle" required>
+                            <option value="" data-fr="Sélectionnez..." data-ar="اختر...">Sélectionnez...</option>
+                            <option value="primaire" data-fr="Primaire" data-ar="ابتدائي">Primaire</option>
+                            <option value="moyenne" data-fr="Moyenne" data-ar="متوسط">Moyenne</option>
+                            <option value="secondaire" data-fr="Secondaire" data-ar="ثانوي">Secondaire</option>
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <textarea id="message" placeholder=" " required></textarea>
+                        <label for="message" data-fr="Votre message" data-ar="رسالتك">Votre message</label>
+                    </div>
+                    <button type="submit" class="btn btn-gold" data-fr="Envoyer" data-ar="إرسال">Envoyer</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== FOOTER ========== -->
+    <footer class="footer">
+        <div class="container footer-inner">
+            <div class="footer-brand">
+                <img src="images/logo_ecole.jpg" alt="Logo">
+                <h4 data-fr="École Privée Abou el Anouar" data-ar="المجمع المدرسي الخاص أبو الانوار">École Privée Abou el Anouar</h4>
+                <p data-fr="Savoir &middot; Discipline &middot; Excellence" data-ar="علم &middot; انضباط &middot; تميز">Savoir &middot; Discipline &middot; Excellence</p>
+                <div class="footer-social">
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                    <a href="https://wa.me/+213561786966" target="_blank" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+            <div class="footer-links">
+                <h4 data-fr="Liens Rapides" data-ar="روابط سريعة">Liens Rapides</h4>
+                <ul>
+                    <li><a href="#accueil" data-fr="Accueil" data-ar="الرئيسية">Accueil</a></li>
+                    <li><a href="#presentation" data-fr="Présentation" data-ar="تعريف">Présentation</a></li>
+                    <li><a href="#niveaux" data-fr="Cycles" data-ar="الأطوار">Cycles</a></li>
+                    <li><a href="#services" data-fr="Services" data-ar="خدمات">Services</a></li>
+                    <li><a href="#contact" data-fr="Contact" data-ar="اتصال">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-contact">
+                <h4 data-fr="Contact" data-ar="الاتصال">Contact</h4>
+                <p><i class="fas fa-map-marker-alt"></i> <span>294, 'Aïn Benian, Alger</span></p>
+                <p><i class="fas fa-phone-alt"></i> <span>+213 561 78 69 66</span></p>
+                <p><i class="fas fa-envelope"></i> <span>ecole.abou.anouar@gmail.com</span></p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <p>&copy; 2026 <span data-fr="École Privée Abou el Anouar. Tous droits réservés." data-ar="المجمع المدرسي الخاص أبو الانوار. جميع الحقوق محفوظة.">École Privée Abou el Anouar. Tous droits réservés.</span></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ========== SUCCESS MODAL ========== -->
+    <div class="modal-overlay" id="successModal">
+        <div class="modal">
+            <div class="modal-icon"><i class="fas fa-check-circle"></i></div>
+            <h3 data-fr="Message envoyé !" data-ar="تم الإرسال!">Message envoyé !</h3>
+            <p data-fr="Merci de nous avoir contactés. Nous vous répondrons dans les plus brefs délais." data-ar="شكرا لتواصلكم معنا. سنرد عليكم في أقرب وقت.">Merci de nous avoir contactés. Nous vous répondrons dans les plus brefs délais.</p>
+            <button class="btn btn-gold modal-close" data-fr="Fermer" data-ar="إغلاق">Fermer</button>
+        </div>
+    </div>
+
+    <!-- ========== SCROLL TO TOP ========== -->
+    <button class="scroll-top" id="scrollTop" aria-label="Retour en haut">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- ========== WHATSAPP FLOAT ========== -->
+    <a href="https://wa.me/+213561786966" target="_blank" class="whatsapp-float" aria-label="WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

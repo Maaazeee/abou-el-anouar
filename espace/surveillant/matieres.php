@@ -59,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['coef'])) {
             $value = (float)str_replace(',', '.', $value);
             if ($value > 0) {
                 q('INSERT INTO matiere_filiere (matiere_id, filiere_id, coefficient) VALUES (?, ?, ?)
-                   ON DUPLICATE KEY UPDATE coefficient = VALUES(coefficient)',
+                   ON CONFLICT (matiere_id, filiere_id) DO UPDATE SET coefficient = EXCLUDED.coefficient',
                   [(int)$matiere_id, (int)$filiere_id, $value]);
             } else {
                 q('DELETE FROM matiere_filiere WHERE matiere_id = ? AND filiere_id = ?',
@@ -80,9 +80,9 @@ if (isset($_GET['edit'])) {
 
 // ---- EXPORT ----
 if (isset($_GET['export'])) {
-    $matieres = q('SELECT m.*, GROUP_CONCAT(CONCAT(p.prenom, " ", p.nom) SEPARATOR "; ") AS profs
+    $matieres = q('SELECT m.*, STRING_AGG(p.prenom || \' \' || p.nom, \'; \') AS profs
                    FROM matieres m LEFT JOIN professeurs p ON p.matiere_id = m.id
-                   GROUP BY m.id ORDER BY m.nom')->fetchAll();
+                   GROUP BY m.id, m.nom ORDER BY m.nom')->fetchAll();
     $filieres = q('SELECT * FROM filieres ORDER BY nom')->fetchAll();
     $coefs = q('SELECT * FROM matiere_filiere')->fetchAll();
     $coef_map = [];

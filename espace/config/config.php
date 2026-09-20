@@ -1,26 +1,53 @@
 <?php
 // =====================================================
-//  Configuration de la base de données
+//  Configuration de la base de données (PostgreSQL)
 //  École Privée Abou el Anouar - Espace Surveillant
 // =====================================================
 
-define('DB_HOST', 'localhost');
-define('DB_NAME', 'ecole_abou_anouar');
-define('DB_USER', 'root');
-define('DB_PASS', ''); // Par défaut XAMPP/WAMP : mot de passe vide
+// En production (Render), la base est fournie via la variable
+// d'environnement DATABASE_URL (postgres://user:pass@host:port/dbname).
+// En local, on peut fournir PGHOST/PGPORT/PGDATABASE/PGUSER/PGPASSWORD
+// ou se rabattre sur les valeurs par défaut ci-dessous.
+
+function db_info() {
+    $url = getenv('DATABASE_URL');
+    if ($url) {
+        $p = parse_url($url);
+        return [
+            'host' => $p['host'] ?? 'localhost',
+            'port' => (int)($p['port'] ?? 5432),
+            'db'   => ltrim($p['path'] ?? '', '/'),
+            'user' => rawurldecode($p['user'] ?? 'postgres'),
+            'pass' => rawurldecode($p['pass'] ?? ''),
+        ];
+    }
+    return [
+        'host' => getenv('PGHOST') ?: 'localhost',
+        'port' => (int)(getenv('PGPORT') ?: 5432),
+        'db'   => getenv('PGDATABASE') ?: 'ecole_abou_anouar',
+        'user' => getenv('PGUSER') ?: 'postgres',
+        'pass' => getenv('PGPASSWORD') ?: '',
+    ];
+}
+
+define('DB_HOST', db_info()['host']);
+define('DB_NAME', db_info()['db']);
+define('DB_USER', db_info()['user']);
+define('DB_PASS', db_info()['pass']);
+define('DB_PORT', db_info()['port']);
 
 // Session
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Connexion PDO
+// Connexion PDO (PostgreSQL)
 function db() {
     static $pdo = null;
     if ($pdo === null) {
         try {
             $pdo = new PDO(
-                'mysql:host=' . DB_HOST . ';dbname=' . DB_NAME . ';charset=utf8mb4',
+                'pgsql:host=' . DB_HOST . ';port=' . DB_PORT . ';dbname=' . DB_NAME,
                 DB_USER,
                 DB_PASS,
                 [
@@ -112,7 +139,11 @@ function parse_csv($tmp_path) {
 function lookup_id($table, $col, $val) {
     $val = trim($val ?? '');
     if ($val === '') return null;
-    $row = q("SELECT id FROM `$table` WHERE `$col` = ? LIMIT 1", [$val])->fetch();
+    // Liste blanche pour éviter toute injection de nom de table/colonne
+    $tables = ['classes', 'matieres', 'eleves', 'professeurs', 'filieres'];
+    $cols = ['nom', 'prenom', 'classe'];
+    if (!in_array($table, $tables, true) || !in_array($col, $cols, true)) return null;
+    $row = q("SELECT id FROM $table WHERE $col = ? LIMIT 1", [$val])->fetch();
     return $row ? $row['id'] : null;
 }
 

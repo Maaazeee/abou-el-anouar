@@ -42,7 +42,7 @@ if ($ids) {
                       FROM emploi_examens ex
                       LEFT JOIN classes c ON c.id = ex.classe_id
                       LEFT JOIN matieres m ON m.id = ex.matiere_id
-                      WHERE ex.classe_id IN ($ph) AND ex.date_examen >= CURDATE()
+                      WHERE ex.classe_id IN ($ph) AND ex.date_examen >= CURRENT_DATE
                       ORDER BY ex.date_examen ASC, ex.heure_debut ASC LIMIT 6", array_values($cids))->fetchAll();
     }
 }

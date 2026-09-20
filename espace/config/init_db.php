@@ -1,48 +1,87 @@
 <?php
 // =====================================================
-//  INITIALISATION DE LA BASE DE DONNÉES
-//  À exécuter UNE SEULE FOIS : http://localhost/.../espace/config/init_db.php
+//  INITIALISATION DE LA BASE DE DONNÉES (PostgreSQL)
+//  À exécuter UNE SEULE FOIS :
+//   - En local : http://localhost/.../espace/config/init_db.php?cle=abou-anouar-2026
+//   - Sur Render : lancé automatiquement par le job d'initialisation (DATABASE_URL)
 // =====================================================
 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-$host = 'localhost';
-$user = 'root';
-$pass = '';
-$dbname = 'ecole_abou_anouar';
-
 echo '<meta charset="UTF-8"><pre style="font-family:Consolas;background:#122a45;color:#e0c46a;padding:20px;border-radius:8px;">';
 
 // --- Garde de sécurité : clé obligatoire pour réinitialiser la base ---
-// Utilisation :  init_db.php?cle=abou-anouar-2026
-if (($_GET['cle'] ?? '') !== 'abou-anouar-2026') {
+// Hors Render uniquement ; sur Render la clé n'est pas demandée (DATABASE_URL fourni)
+$is_render = (bool)getenv('DATABASE_URL') || getenv('RENDER') === 'true';
+if (!$is_render && ($_GET['cle'] ?? '') !== 'abou-anouar-2026') {
     http_response_code(403);
-    exit("Accès refusé.\n\nPour (ré)initialiser la base, utilisez :\n  espace/config/init_db.php?cle=abou-anouar-2026\n\nEn production : supprimez ce fichier après installation.");
+    exit("Accès refusé.\n\nPour (ré)initialiser la base en local, utilisez :\n  espace/config/init_db.php?cle=abou-anouar-2026\n\nEn production : supprimez ce fichier après installation.");
 }
 
-// --- Connexion sans base ---
+// --- Connexion ---
+function init_db_info() {
+    $url = getenv('DATABASE_URL');
+    if ($url) {
+        $p = parse_url($url);
+        return [
+            'host' => $p['host'] ?? 'localhost',
+            'port' => (int)($p['port'] ?? 5432),
+            'db'   => ltrim($p['path'] ?? '', '/'),
+            'user' => rawurldecode($p['user'] ?? 'postgres'),
+            'pass' => rawurldecode($p['pass'] ?? ''),
+        ];
+    }
+    return [
+        'host' => getenv('PGHOST') ?: 'localhost',
+        'port' => (int)(getenv('PGPORT') ?: 5432),
+        'db'   => getenv('PGDATABASE') ?: 'ecole_abou_anouar',
+        'user' => getenv('PGUSER') ?: 'postgres',
+        'pass' => getenv('PGPASSWORD') ?: '',
+    ];
+}
+
+$info = init_db_info();
+$dsn = 'pgsql:host=' . $info['host'] . ';port=' . $info['port'];
+
 try {
-    $pdo = new PDO("mysql:host=$host;charset=utf8mb4", $user, $pass);
+    $pdo = new PDO("$dsn;dbname=" . $info['db'], $info['user'], $info['pass']);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $created = false;
 } catch (PDOException $e) {
-    die("Impossible de se connecter à MySQL : " . $e->getMessage() . "\n\nVérifiez que MySQL est démarré (XAMPP/WAMP).");
+    // La base n'existe pas encore (cas local) : on la crée via la base maintenance "postgres"
+    try {
+        $adb = new PDO("$dsn;dbname=postgres", $info['user'], $info['pass']);
+        $adb->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $adb->exec('CREATE DATABASE "' . $info['db'] . '"');
+        $pdo = new PDO("$dsn;dbname=" . $info['db'], $info['user'], $info['pass']);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $created = true;
+    } catch (PDOException $e2) {
+        die("Impossible de se connecter à PostgreSQL : " . $e2->getMessage() . "\n\nVérifiez que PostgreSQL est démarré et que DATABASE_URL / PG* sont correctement configurés (Render).");
+    }
 }
+echo ($created ? "✔ Base de données '" . $info['db'] . "' créée\n" : "✔ Connexion à la base '" . $info['db'] . "'\n");
 
-// --- Création de la base ---
-$pdo->exec("DROP DATABASE IF EXISTS `$dbname`");
-$pdo->exec("CREATE DATABASE `$dbname` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
-$pdo->exec("USE `$dbname`");
-echo "✔ Base de données '$dbname' créée\n";
+// --- Réinitialisation (optionnelle) ---
+// Mode "force" : on reconstruit entièrement le schéma (DROP + CREATE).
+//   - Sur Render : variable d'environnement INIT_FORCE=1
+//   - En local     : init_db.php?cle=abou-anouar-2026&force=1
+$force = (getenv('INIT_FORCE') === '1') || (($_GET['force'] ?? '') === '1');
+if ($force) {
+    $pdo->exec('DROP SCHEMA IF EXISTS public CASCADE');
+    $pdo->exec('CREATE SCHEMA public');
+    echo "✔ Schéma public réinitialisé (mode force)\n";
+}
 
 // --- Tables ---
 $sql = [];
 
 $sql[] = "CREATE TABLE users (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     username VARCHAR(50) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
-    role ENUM('admin','surveillant','parent','professeur') NOT NULL,
+    role VARCHAR(20) NOT NULL CHECK (role IN ('admin','surveillant','parent','professeur')),
     nom VARCHAR(100),
     prenom VARCHAR(100),
     email VARCHAR(150),
@@ -51,19 +90,19 @@ $sql[] = "CREATE TABLE users (
 )";
 
 $sql[] = "CREATE TABLE classes (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     nom VARCHAR(50) NOT NULL,
-    cycle ENUM('primaire','moyenne','secondaire') NOT NULL,
+    cycle VARCHAR(20) NOT NULL CHECK (cycle IN ('primaire','moyenne','secondaire')),
     annee VARCHAR(20)
 )";
 
 $sql[] = "CREATE TABLE matieres (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     nom VARCHAR(100) NOT NULL
 )";
 
 $sql[] = "CREATE TABLE professeurs (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     nom VARCHAR(100) NOT NULL,
     prenom VARCHAR(100) NOT NULL,
     email VARCHAR(150),
@@ -76,13 +115,13 @@ $sql[] = "CREATE TABLE professeurs (
 )";
 
 $sql[] = "CREATE TABLE eleves (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     nom VARCHAR(100) NOT NULL,
     prenom VARCHAR(100) NOT NULL,
     date_naissance DATE,
     lieu_naissance VARCHAR(100),
     nationalite VARCHAR(50) DEFAULT 'Algérienne',
-    sexe ENUM('M','F') DEFAULT 'M',
+    sexe VARCHAR(10) DEFAULT 'M' CHECK (sexe IN ('M','F')),
     classe_id INT,
     adresse TEXT,
     telephone_parent VARCHAR(30),
@@ -92,9 +131,9 @@ $sql[] = "CREATE TABLE eleves (
 )";
 
 $sql[] = "CREATE TABLE emploi_du_temps (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     classe_id INT NOT NULL,
-    jour TINYINT NOT NULL COMMENT '1=Dimanche ... 5=Jeudi (6=Vendredi = repos)',
+    jour SMALLINT NOT NULL,
     heure_debut TIME NOT NULL,
     heure_fin TIME NOT NULL,
     matiere_id INT,
@@ -105,38 +144,38 @@ $sql[] = "CREATE TABLE emploi_du_temps (
 )";
 
 $sql[] = "CREATE TABLE absences_profs (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     professeur_id INT NOT NULL,
     date_absence DATE NOT NULL,
     motif VARCHAR(255),
-    justifiee TINYINT(1) DEFAULT 0,
+    justifiee SMALLINT DEFAULT 0,
     FOREIGN KEY (professeur_id) REFERENCES professeurs(id) ON DELETE CASCADE
 )";
 
 $sql[] = "CREATE TABLE absences_eleves (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     eleve_id INT NOT NULL,
     date_absence DATE NOT NULL,
     motif VARCHAR(255),
-    justifiee TINYINT(1) DEFAULT 0,
+    justifiee SMALLINT DEFAULT 0,
     FOREIGN KEY (eleve_id) REFERENCES eleves(id) ON DELETE CASCADE
 )";
 
 $sql[] = "CREATE TABLE notes (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     eleve_id INT NOT NULL,
     matiere_id INT NOT NULL,
-    type_note ENUM('controle','examen') NOT NULL,
+    type_note VARCHAR(10) NOT NULL CHECK (type_note IN ('controle','examen')),
     note DECIMAL(4,2) NOT NULL,
     coefficient DECIMAL(3,1) DEFAULT 1,
     date_note DATE,
-    trimestre TINYINT DEFAULT 1,
+    trimestre SMALLINT DEFAULT 1,
     FOREIGN KEY (eleve_id) REFERENCES eleves(id) ON DELETE CASCADE,
     FOREIGN KEY (matiere_id) REFERENCES matieres(id) ON DELETE CASCADE
 )";
 
 $sql[] = "CREATE TABLE emploi_examens (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     classe_id INT NOT NULL,
     matiere_id INT,
     date_examen DATE NOT NULL,
@@ -148,20 +187,20 @@ $sql[] = "CREATE TABLE emploi_examens (
 )";
 
 $sql[] = "CREATE TABLE filieres (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     nom VARCHAR(100) NOT NULL
 )";
 
 $sql[] = "CREATE TABLE matiere_filiere (
     matiere_id INT NOT NULL,
-    filiere_id INT NOT NULL DEFAULT 0 COMMENT '0 = Générale (avant le lycée), >0 = filière du lycée',
+    filiere_id INT NOT NULL DEFAULT 0,
     coefficient DECIMAL(3,1) NOT NULL DEFAULT 1,
     PRIMARY KEY (matiere_id, filiere_id),
     FOREIGN KEY (matiere_id) REFERENCES matieres(id) ON DELETE CASCADE
 )";
 
 $sql[] = "CREATE TABLE preinscriptions (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     nom VARCHAR(100) NOT NULL,
     prenom VARCHAR(100) NOT NULL,
     date_naissance DATE,
@@ -179,25 +218,35 @@ $sql[] = "CREATE TABLE preinscriptions (
     parent_email VARCHAR(150),
     parent_adresse TEXT,
     parent_profession VARCHAR(100),
-    statut ENUM('nouveau','validee','refusee') DEFAULT 'nouveau',
+    statut VARCHAR(10) DEFAULT 'nouveau' CHECK (statut IN ('nouveau','validee','refusee')),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )";
 
 $sql[] = "CREATE TABLE mots_carnet (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     eleve_id INT NOT NULL,
     message TEXT NOT NULL,
-    lu TINYINT(1) DEFAULT 0,
+    lu SMALLINT DEFAULT 0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (eleve_id) REFERENCES eleves(id) ON DELETE CASCADE
 )";
 
 foreach ($sql as $create) {
-    $pdo->exec($create);
+    // Idempotent : ne rien faire si la table existe déjà
+    $pdo->exec(str_replace('CREATE TABLE ', 'CREATE TABLE IF NOT EXISTS ', $create));
 }
 echo "✔ Tables créées (users, classes, matieres, professeurs, eleves, emploi_du_temps, absences_profs, absences_eleves, notes, emploi_examens, filieres, matiere_filiere, preinscriptions, mots_carnet)\n";
 
-// --- Données de départ ---
+// --- Données de départ (uniquement si la base est vide) ---
+$nb_users = (int)$pdo->query('SELECT COUNT(*) FROM users')->fetchColumn();
+if ($nb_users > 0) {
+    echo "\n⚠ Données déjà présentes dans la base — aucun seed réinséré (réinitialisation complète possible avec INIT_FORCE=1 ou ?force=1).\n";
+    echo '</pre>';
+    exit;
+}
+
+echo "✔ Base vide → insertion des données de démonstration\n";
+
 // Utilisateurs
 $pdo->exec("INSERT INTO users (username, password, role, nom, prenom, email) VALUES
     ('admin', '" . password_hash('admin123', PASSWORD_DEFAULT) . "', 'admin', 'Admin', 'Système', 'admin@abouelanouar.dz'),
@@ -356,5 +405,5 @@ echo "   - Admin :        admin / admin123\n";
 echo "   - Parent :       parent / parent123 (lié à AMRANI Mohamed — email parent1@gmail.com)\n";
 echo "\n➜ Lien parent → élève : users.email doit être égal à eleves.email_parent.\n";
 echo "\n➜ IMPORTANT : Supprimez ce fichier après installation !\n";
-echo "➜ Pour rejouer ce script :  init_db.php?cle=abou-anouar-2026\n";
+echo "➜ Pour rejouer ce script en local :  init_db.php?cle=abou-anouar-2026\n";
 echo '</pre>';

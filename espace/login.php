@@ -67,7 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <label for="username">Nom d'utilisateur</label>
                     <div class="login-input">
                         <i class="fas fa-user"></i>
-                        <input type="text" id="username" name="username" placeholder="ex : surveillant" required autofocus>
+                        <input type="text" id="username" name="username" placeholder="Votre identifiant" required autofocus>
                     </div>
                 </div>
                 <div class="login-field">
@@ -81,13 +81,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <i class="fas fa-sign-in-alt"></i> Se connecter
                 </button>
             </form>
-
-            <div class="login-hint">
-                <strong>Comptes de démonstration :</strong><br>
-                Parent : <code>parent / parent123</code><br>
-                Surveillant : <code>surveillant / surveillant123</code><br>
-                Admin : <code>admin / admin123</code>
-            </div>
 
             <a href="../index.html" class="login-back"><i class="fas fa-arrow-left"></i> Retour au site</a>
         </div>

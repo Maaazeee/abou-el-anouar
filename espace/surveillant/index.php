@@ -25,7 +25,7 @@ $examens_venir = q("SELECT e.date_examen, e.heure_debut, c.nom AS classe, m.nom 
     FROM emploi_examens e
     LEFT JOIN classes c ON c.id = e.classe_id
     LEFT JOIN matieres m ON m.id = e.matiere_id
-    WHERE e.date_examen >= CURDATE()
+    WHERE e.date_examen >= CURRENT_DATE
     ORDER BY e.date_examen ASC, e.heure_debut ASC LIMIT 6")->fetchAll();
 
 // Jours de la semaine (Dimanche = 1)

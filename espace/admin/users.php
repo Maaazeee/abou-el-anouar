@@ -99,7 +99,7 @@ if (isset($_GET['edit'])) {
 
 // ---- LISTE ----
 $users = q("SELECT u.*,
-            (SELECT GROUP_CONCAT(e.prenom, ' ', e.nom SEPARATOR ', ')
+            (SELECT STRING_AGG(e.prenom || ' ' || e.nom, ', ')
              FROM eleves e WHERE e.email_parent = u.email) AS enfants
             FROM users u
             ORDER BY u.role, u.username")->fetchAll();

@@ -9,8 +9,8 @@ $matieres = q('SELECT id, nom FROM matieres ORDER BY nom')->fetchAll();
 // ---- RECALCUL AUTO DES HEURES (depuis l'emploi du temps) ----
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['recalc_heures'])) {
     q("UPDATE professeurs p
-       SET p.total_heures = COALESCE((
-           SELECT SUM(TIMESTAMPDIFF(MINUTE, e.heure_debut, e.heure_fin)) / 60.0
+       SET total_heures = COALESCE((
+           SELECT SUM(EXTRACT(EPOCH FROM (e.heure_fin - e.heure_debut))) / 60.0
            FROM emploi_du_temps e WHERE e.professeur_id = p.id), 0)");
     set_flash('success', "Heures recalculées automatiquement depuis l'emploi du temps.");
     header('Location: professeurs.php');
@@ -118,7 +118,7 @@ if (isset($_POST['do_import']) && isset($_FILES['import_csv']) && $_FILES['impor
 // ---- LISTE ----
 $profs = q('SELECT p.*, m.nom AS matiere,
             (SELECT COUNT(*) FROM absences_profs a WHERE a.professeur_id = p.id) AS nb_abs,
-            (SELECT COALESCE(SUM(TIMESTAMPDIFF(MINUTE, e.heure_debut, e.heure_fin)) / 60.0, 0)
+            (SELECT COALESCE(SUM(EXTRACT(EPOCH FROM (e.heure_fin - e.heure_debut))) / 60.0, 0)
              FROM emploi_du_temps e WHERE e.professeur_id = p.id) AS heures_edt
             FROM professeurs p LEFT JOIN matieres m ON m.id = p.matiere_id
             ORDER BY p.nom, p.prenom')->fetchAll();

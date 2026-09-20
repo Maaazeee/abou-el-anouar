@@ -13,10 +13,12 @@ echo '<meta charset="UTF-8"><pre style="font-family:Consolas;background:#122a45;
 
 // --- Garde de sécurité : clé obligatoire pour réinitialiser la base ---
 // Hors Render uniquement ; sur Render la clé n'est pas demandée (DATABASE_URL fourni)
+// En CLI : php init_db.php abou-anouar-2026
 $is_render = (bool)getenv('DATABASE_URL') || getenv('RENDER') === 'true';
-if (!$is_render && ($_GET['cle'] ?? '') !== 'abou-anouar-2026') {
+$cle_cli = $argv[1] ?? '';
+if (!$is_render && ($_GET['cle'] ?? '') !== 'abou-anouar-2026' && $cle_cli !== 'abou-anouar-2026') {
     http_response_code(403);
-    exit("Accès refusé.\n\nPour (ré)initialiser la base en local, utilisez :\n  espace/config/init_db.php?cle=abou-anouar-2026\n\nEn production : supprimez ce fichier après installation.");
+    exit("Accès refusé.\n\nPour (ré)initialiser la base en local, utilisez :\n  espace/config/init_db.php?cle=abou-anouar-2026\n  ou : php init_db.php abou-anouar-2026\n\nEn production : supprimez ce fichier après installation.");
 }
 
 // --- Connexion ---
